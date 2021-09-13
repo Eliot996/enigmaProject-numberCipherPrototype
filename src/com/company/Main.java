@@ -1,17 +1,93 @@
 package com.company;
 
-
 import java.util.Scanner;
 
 public class Main {
     // master alphabet
-    final static char[] ALPHABET = {' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q',
-            'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Æ', 'Ø', 'Å'};
+    final static char[] ALPHABET = {' ', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O',
+            'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'Æ', 'Ø', 'Å', ',', '.', '!', '?'};
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
         System.out.println(encode());
 
+        System.out.println(decode());
+
+    }
+
+    // To decode a text
+    public static String decode(){
+        String decoded;
+        int[] ints;
+
+        // get input from user
+        System.out.print("Skriv en række tal, der skal konverters til tekst: ");
+        String toDecode = input.nextLine();
+
+        // convert to array of ints
+        ints = stringToInts(toDecode);
+
+        // convert to string, from indexes
+        decoded = intsToString(ints);
+        return decoded;
+    }
+
+    // takes the patteren for the string of the int array, and converts it to an array of ints
+    public static int[] stringToInts(String text){
+        // creates an array, with the length of the text, because we cannot adjust the lenght of the array later.
+        // therefore, it is better to have a larger array than neccesary, and adjust later
+        int[] intsPlaceholder = new int[text.length()],
+                ints;
+
+        // index for the while loop
+        int i = 0;
+
+        // finds the indexes of "{" and "}"
+        int indexFirst = text.indexOf("{"),
+                indexLast = text.indexOf("}"),
+                workingIndex;
+
+        // get only the numbers, needed along with commas
+        String placeholder = text.substring(indexFirst + 1,indexLast);
+
+        // find the first "," in placholder
+        workingIndex = placeholder.indexOf(", ");
+
+        // using workingIndex
+        while (workingIndex != -1){
+            // takes the string before the workingIndex and parses it to an int,
+            // and saves it in the respective index of ints
+            intsPlaceholder[i] = Integer.parseInt(placeholder.substring(0,workingIndex));
+
+            // removes the number just found, along with the ", "
+            placeholder = placeholder.substring(workingIndex + 2);
+
+            // gets new workingIndex
+            workingIndex = placeholder.indexOf(", ");
+            i++;
+        }
+        // adds the remaining number
+        intsPlaceholder[i] = Integer.parseInt(placeholder);
+
+        // creates a new int array, of proper size
+        ints = new int[i+1];
+
+        // copies the working array to the returning array
+        for (int j = 0; j < ints.length; j++) {
+            ints[j] = intsPlaceholder[j];
+        }
+
+        return ints;
+    }
+
+    // converts an array of ints to the corresponding string of chars
+    public static String intsToString(int[] ints){
+        // makes a StringBuilder, and appends the corresponding chars to the StringBuilder
+        StringBuilder result = new StringBuilder();
+        for (int i = 0; i < ints.length; i++) {
+            result.append(ALPHABET[ints[i]]);
+        }
+        return result.toString();
     }
 
     // To encode a text
@@ -47,7 +123,7 @@ public class Main {
     public static String toString(int[] ints){
         StringBuilder result = new StringBuilder("{" + ints[0]);
         for (int i = 1; i < ints.length; i++) {
-            result.append(",").append(ints[i]);
+            result.append(", ").append(ints[i]);
         }
         result.append("}");
         return result.toString();
