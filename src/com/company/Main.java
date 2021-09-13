@@ -9,10 +9,23 @@ public class Main {
     static Scanner input = new Scanner(System.in);
 
     public static void main(String[] args) {
-        System.out.println(encode());
+        String selector = "";
+        System.out.println("""
+                
+                Dette progam kan konvertere tekst til en række tal, og omvendt
+                """);
 
-        System.out.println(decode());
-
+        while (!selector.equals("q")){
+            if (selector.equals("e")){
+                System.out.println("Den encode tekst er: " + encode());
+                System.out.println();
+            } else if (selector.equals("d")){
+                System.out.println("Den decode tekst er: " + decode());
+                System.out.println();
+            }
+            System.out.print("Skriv 'e' for at encode, skriv 'd' for at decode en bedsked, eller q for at stoppe: ");
+            selector = input.nextLine();
+        }
     }
 
     // To decode a text
@@ -21,10 +34,10 @@ public class Main {
         int[] ints;
 
         // get input from user
-        System.out.print("Skriv en række tal, der skal konverters til tekst: ");
+        System.out.print("Du har valgt decode - indtast en liste af tal: ");
         String toDecode = input.nextLine();
 
-        // convert to array of ints
+        // convert string to array of ints
         ints = stringToInts(toDecode);
 
         // convert to string, from indexes
@@ -96,7 +109,7 @@ public class Main {
         int[] ints;
 
         //get string from user
-        System.out.print("Skriv en text, der skal konverters til tal: ");
+        System.out.print("Du har valgt encode - indtast en tekst: ");
         String toEncode = input.nextLine();
 
         // convert string into an int array, and save it in ints
