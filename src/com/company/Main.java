@@ -45,6 +45,23 @@ public class Main {
         return decoded;
     }
 
+    // To encode a text
+    public static String encode(){
+        String encoded;
+        int[] ints;
+
+        //get string from user
+        System.out.print("Du har valgt encode - indtast en tekst: ");
+        String toEncode = input.nextLine();
+
+        // convert string into an int array, and save it in ints
+        ints = toInts(toEncode.toUpperCase());
+
+        //convert ints to a string, and return the string
+        encoded = toString(ints);
+        return encoded;
+    }
+
     // takes the patteren for the string of the int array, and converts it to an array of ints
     public static int[] stringToInts(String text){
         // creates an array, with the length of the text, because we cannot adjust the lenght of the array later.
@@ -101,23 +118,6 @@ public class Main {
             result.append(ALPHABET[ints[i]]);
         }
         return result.toString();
-    }
-
-    // To encode a text
-    public static String encode(){
-        String encoded;
-        int[] ints;
-
-        //get string from user
-        System.out.print("Du har valgt encode - indtast en tekst: ");
-        String toEncode = input.nextLine();
-
-        // convert string into an int array, and save it in ints
-        ints = toInts(toEncode.toUpperCase());
-
-        //convert ints to a string, and return the string
-        encoded = toString(ints);
-        return encoded;
     }
 
     // converts a string to an array of ints
